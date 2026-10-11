@@ -1,5 +1,8 @@
 name: Keep Supabase awake
 on:
+  push:
+    paths:
+      - ".github/workflows/keep-alive.yml"
   schedule:
     - cron: "0 6 * * 1,4"
   workflow_dispatch:
