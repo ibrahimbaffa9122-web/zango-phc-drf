@@ -280,7 +280,13 @@ async function login(){
   const email = $("email").value.trim(), password = $("password").value;
   if(!email || !password){ setMsg($("loginErr"), "Enter your email and password.", false); return; }
   btn.disabled = true; btn.textContent = "Logging in...";
-  const { error } = await sb.auth.signInWithPassword({ email, password });
+  const result = await Promise.race([
+  sb.auth.signInWithPassword({ email, password }),
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Login request timed out. Check your internet connection and Supabase settings.")), 10000)
+  )
+]);
+const error = result.error;
   btn.disabled = false; btn.textContent = "Log in";
   if(error){ setMsg($("loginErr"), "Wrong email or password. Check and try again.", false); return; }
   $("password").value = "";
