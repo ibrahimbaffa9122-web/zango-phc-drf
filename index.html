@@ -616,5 +616,14 @@ $("printBtn").onclick = () => printReceipt($("receiptHost").querySelector(".rece
 $("q").addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 250); });
 init();
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Offline support enabled"))
+      .catch(err => console.error("Service worker error:", err));
+  });
+}
+  </script>
 </body>
 </html>
